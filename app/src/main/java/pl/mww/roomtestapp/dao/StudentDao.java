@@ -5,6 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -25,6 +26,13 @@ public interface StudentDao {
     @Query("SELECT indexNo FROM students ORDER BY indexNo DESC LIMIT 1")
     int getLastIndex();
 
+    @Query("DELETE  FROM students WHERE indexNo=(SELECT MAX(indexNo) FROM students)")
+    void deleteLastStudent();
+
     @Delete
     void deleteStudents(Student... students);
+
+    @Update
+    public void updateUsers(Student... students);
+
 }
