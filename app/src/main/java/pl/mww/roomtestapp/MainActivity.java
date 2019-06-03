@@ -8,11 +8,12 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import pl.mww.roomtestapp.dao.StudentDao;
 import pl.mww.roomtestapp.database.StudentDatabase;
 import pl.mww.roomtestapp.model.Student;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,13 +22,13 @@ public class MainActivity extends AppCompatActivity {
     StudentDatabase db;
     StudentDao studentDao;
     private int counter = 0;
-
+    List<Student> updatedStudents = new ArrayList<>(Arrays.asList(new Student("Jan", "Kowalski", "1"),
+                                                                    new Student("Anna", "Kowalska", "2")));
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         list = findViewById(R.id.listView1);
-
 
         db = StudentDatabase.getInstance(getApplicationContext());
         studentDao = db.studentDao();
@@ -50,7 +51,14 @@ public class MainActivity extends AppCompatActivity {
             displayStudentList();
             counter--;
         }));
+        findViewById(R.id.replace_data).setOnClickListener(v -> AsyncTask.execute(() -> {
+            studentDao.replaceData(updatedStudents);
+            System.out.println("Replaced data");
+            displayStudentList();
+            counter = updatedStudents.size();
+        }));
     }
+
     public void displayStudentList() {
         final ArrayList<String> studentList = new ArrayList<>();
         for(Student s : studentDao.getAllStudents()) {

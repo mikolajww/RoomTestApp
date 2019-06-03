@@ -5,6 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import java.util.List;
@@ -16,6 +17,9 @@ public interface StudentDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Student student);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<Student> students);
 
     @Query("DELETE FROM students")
     void deleteAll();
@@ -34,5 +38,11 @@ public interface StudentDao {
 
     @Update
     public void updateUsers(Student... students);
+
+    @Transaction
+    default void replaceData(List<Student> students)  {
+        deleteAll();
+        insertAll(students);
+    }
 
 }
