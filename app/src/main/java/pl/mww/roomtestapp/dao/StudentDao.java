@@ -11,6 +11,7 @@ import androidx.room.Update;
 import java.util.List;
 
 import pl.mww.roomtestapp.model.Student;
+import pl.mww.roomtestapp.model.StudentMinimal;
 
 @Dao
 public interface StudentDao {
@@ -44,5 +45,8 @@ public interface StudentDao {
         deleteAll();
         insertAll(students);
     }
+
+    @Query("SELECT firstName, indexNo FROM students")
+    List<StudentMinimal> getAllStudentsMinimal();
 
 }

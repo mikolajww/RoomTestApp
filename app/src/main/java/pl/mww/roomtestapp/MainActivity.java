@@ -14,6 +14,7 @@ import java.util.List;
 import pl.mww.roomtestapp.dao.StudentDao;
 import pl.mww.roomtestapp.database.StudentDatabase;
 import pl.mww.roomtestapp.model.Student;
+import pl.mww.roomtestapp.model.StudentMinimal;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     StudentDatabase db;
     StudentDao studentDao;
     private int counter = 0;
-    List<Student> updatedStudents = new ArrayList<>(Arrays.asList(new Student("Jan", "Kowalski", "1"),
+    List<Student> replacedStudents = new ArrayList<>(Arrays.asList(new Student("Jan", "Kowalski", "1"),
                                                                     new Student("Anna", "Kowalska", "2")));
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.add_students).setOnClickListener(v -> AsyncTask.execute(() -> {
             counter++;
-            studentDao.insert(new Student("xd", "dx", String.valueOf(counter)));
+            studentDao.insert(new Student("John", "Doe", String.valueOf(counter)));
             displayStudentList();
         }));
 
@@ -52,16 +53,30 @@ public class MainActivity extends AppCompatActivity {
             counter--;
         }));
         findViewById(R.id.replace_data).setOnClickListener(v -> AsyncTask.execute(() -> {
-            studentDao.replaceData(updatedStudents);
+            studentDao.replaceData(replacedStudents);
             System.out.println("Replaced data");
             displayStudentList();
-            counter = updatedStudents.size();
+            counter = replacedStudents.size();
+        }));
+        findViewById(R.id.get_minimal).setOnClickListener(v -> AsyncTask.execute(() -> {
+            displayStudentListMinimal();
+            System.out.println("Displayed minimal");
         }));
     }
 
     public void displayStudentList() {
         final ArrayList<String> studentList = new ArrayList<>();
         for(Student s : studentDao.getAllStudents()) {
+            System.out.println(s);
+            studentList.add(s.toString());
+        }
+        adapter = new ArrayAdapter<>(this, R.layout.element, studentList);
+        runOnUiThread(()->list.setAdapter(adapter));
+    }
+
+    public void displayStudentListMinimal() {
+        final ArrayList<String> studentList = new ArrayList<>();
+        for(StudentMinimal s : studentDao.getAllStudentsMinimal()) {
             System.out.println(s);
             studentList.add(s.toString());
         }
