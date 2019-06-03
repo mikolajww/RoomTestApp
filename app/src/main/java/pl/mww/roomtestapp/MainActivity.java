@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
         db = StudentDatabase.getInstance(getApplicationContext());
         studentDao = db.studentDao();
+        
+        AsyncTask.execute(() -> displayStudentList());
 
         findViewById(R.id.add_students).setOnClickListener(v -> AsyncTask.execute(() -> {
             counter++;
