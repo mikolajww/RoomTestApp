@@ -14,11 +14,19 @@ public class Student {
     @PrimaryKey
     @NonNull
     private String indexNo;
+    @NonNull
+    private String email;
 
-    public Student(String firstName, String lastName, String indexNo) {
+    public Student(String firstName, String lastName, String indexNo, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.indexNo = indexNo;
+        this.email = email;
+    }
+
+    @Ignore
+    public Student (String firstName, String lastName, String indexNo) {
+        this(firstName, lastName, indexNo, "przykladowy@email.pl");
     }
 
     public String getFirstName() {
@@ -33,9 +41,13 @@ public class Student {
         return indexNo;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     @NonNull
     @Override
     public String toString() {
-        return firstName + " " + lastName + ", " + indexNo;
+        return firstName + " " + lastName + ", " + indexNo + ", " + email;
     }
 }
