@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView list;
     private ArrayAdapter<String> adapter;
+
     StudentDatabase db;
     StudentDao studentDao;
     private int counter = 0;
@@ -33,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
 
         db = StudentDatabase.getInstance(getApplicationContext());
         studentDao = db.studentDao();
+        //asynchroniczne pobranie wartości countera z poprzedniego otwarcia aplikacji
+        AsyncTask.execute(() -> counter = studentDao.getLastIndex());
+        AsyncTask.execute(() -> displayStudentList());
 
         findViewById(R.id.add_students).setOnClickListener(v -> AsyncTask.execute(() -> {
             counter++;
@@ -50,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             studentDao.deleteLastStudent();
             System.out.println("Deleted last student");
             displayStudentList();
-            counter--;
+            if(counter != 0) counter--;
         }));
         findViewById(R.id.replace_data).setOnClickListener(v -> AsyncTask.execute(() -> {
             studentDao.replaceData(replacedStudents);

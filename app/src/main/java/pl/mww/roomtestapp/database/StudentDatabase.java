@@ -32,13 +32,14 @@ public abstract class StudentDatabase extends RoomDatabase {
         }
     };
 
+//Klasa database jest singletonem oraz jej metoda getInstance jest podwójnie sprawdzana,
+// aby uniknąć przypadkowej podwójnej inicjalizacji przez wątki
     public static StudentDatabase getInstance(final Context context) {
         if(INSTANCE == null) {
             synchronized (StudentDatabase.class) {
                 if(INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             StudentDatabase.class, "student_database")
-                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                             .build();
                 }
             }
