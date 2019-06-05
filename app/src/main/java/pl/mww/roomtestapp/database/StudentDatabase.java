@@ -14,7 +14,8 @@ public abstract class StudentDatabase extends RoomDatabase {
     public abstract StudentDao studentDao();
 
     private static volatile StudentDatabase INSTANCE;
-
+//Klasa database jest singletonem oraz jej metoda getInstance jest podwójnie sprawdzana,
+// aby uniknąć przypadkowej podwójnej inicjalizacji przez wątki
     public static StudentDatabase getInstance(final Context context) {
         if(INSTANCE == null) {
             synchronized (StudentDatabase.class) {
