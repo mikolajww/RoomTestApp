@@ -15,21 +15,10 @@ public class Student {
     @NonNull
     private String indexNo;
 
-    private String last_update;
-
-    private String classroom;
-
-    public Student(String firstName, String lastName, String indexNo, String last_update, String classroom) {
+    public Student(String firstName, String lastName, String indexNo) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.indexNo = indexNo;
-        this.last_update = last_update;
-        this.classroom = classroom;
-    }
-
-    @Ignore
-    public Student (String firstName, String lastName, String indexNo) {
-        this(firstName, lastName, indexNo, "1", "no1");
     }
 
     public String getFirstName() {
@@ -44,15 +33,9 @@ public class Student {
         return indexNo;
     }
 
-    public String getLast_update() { return last_update; }
-
-    public String getClassroom() {
-        return classroom;
-    }
-
     @NonNull
     @Override
     public String toString() {
-        return firstName + " " + lastName + ", " + indexNo + ", " + last_update + ", " + classroom;
+        return firstName + " " + lastName + ", " + indexNo;
     }
 }

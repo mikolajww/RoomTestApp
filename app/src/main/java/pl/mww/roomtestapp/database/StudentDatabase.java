@@ -2,35 +2,18 @@ package pl.mww.roomtestapp.database;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.room.migration.Migration;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import pl.mww.roomtestapp.dao.StudentDao;
 import pl.mww.roomtestapp.model.Student;
 
-@Database(entities = {Student.class}, version = 3)
+@Database(entities = {Student.class}, version = 1)
 public abstract class StudentDatabase extends RoomDatabase {
     public abstract StudentDao studentDao();
 
     private static volatile StudentDatabase INSTANCE;
-
-    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
-        @Override
-        public void migrate(@NonNull SupportSQLiteDatabase database) {
-            database.execSQL("ALTER TABLE students ADD COLUMN last_update TEXT");
-        }
-    };
-
-    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
-        @Override
-        public void migrate(@NonNull SupportSQLiteDatabase database) {
-            database.execSQL("ALTER TABLE students ADD COLUMN  classroom TEXT DEFAULT 'old' ");
-        }
-    };
 
 //Klasa database jest singletonem oraz jej metoda getInstance jest podwójnie sprawdzana,
 // aby uniknąć przypadkowej podwójnej inicjalizacji przez wątki
